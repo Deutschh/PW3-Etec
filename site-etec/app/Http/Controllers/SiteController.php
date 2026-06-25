@@ -9,9 +9,9 @@ class SiteController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Controller principal do site da ETEC
+    | Controller principal do site da ETEC Zona Leste
     |--------------------------------------------------------------------------
-    | Este controller controla as páginas principais do projeto:
+    | Este controller organiza as páginas principais do sistema:
     | Home, Cursos, Eventos, Formulário e Mensagens.
     */
 
@@ -22,18 +22,29 @@ class SiteController extends Controller
 
     public function cursos()
     {
+        /*
+        | Array com cursos apresentados no site.
+        | Os dados são enviados para a View cursos.blade.php.
+        */
+
         $cursos = [
             [
                 'nome' => 'Desenvolvimento de Sistemas',
-                'descricao' => 'Curso voltado para programação, banco de dados, criação de sites e desenvolvimento de aplicações.',
+                'area' => 'Tecnologia',
+                'descricao' => 'Formação voltada à criação de sites, sistemas, aplicativos, banco de dados e lógica de programação.',
+                'icone' => '💻',
             ],
             [
                 'nome' => 'Administração',
-                'descricao' => 'Curso focado em gestão, organização empresarial, finanças e processos administrativos.',
+                'area' => 'Gestão',
+                'descricao' => 'Curso focado em processos administrativos, organização empresarial, finanças, comunicação e gestão.',
+                'icone' => '📊',
             ],
             [
                 'nome' => 'Logística',
-                'descricao' => 'Curso relacionado ao controle de estoque, transporte, distribuição e cadeia de suprimentos.',
+                'area' => 'Operações',
+                'descricao' => 'Formação relacionada a transporte, estoque, distribuição, planejamento e cadeia de suprimentos.',
+                'icone' => '🚚',
             ],
         ];
 
@@ -42,21 +53,29 @@ class SiteController extends Controller
 
     public function eventos()
     {
+        /*
+        | Eventos fictícios criados para simular uma agenda escolar.
+        | Essa estrutura permite exibir dados dinâmicos na View.
+        */
+
         $eventos = [
             [
-                'titulo' => 'Feira Tecnológica',
+                'titulo' => 'Mostra Técnica da ETEC Zona Leste',
                 'data' => '24/06/2026',
-                'descricao' => 'Apresentação de projetos desenvolvidos pelos alunos da ETEC.',
+                'tipo' => 'Projetos',
+                'descricao' => 'Apresentação de trabalhos desenvolvidos pelos alunos dos cursos técnicos.',
             ],
             [
-                'titulo' => 'Semana da Programação',
+                'titulo' => 'Semana da Tecnologia',
                 'data' => '10/08/2026',
-                'descricao' => 'Palestras e oficinas sobre desenvolvimento web, banco de dados e tecnologia.',
+                'tipo' => 'Palestras',
+                'descricao' => 'Encontro com oficinas, palestras e atividades sobre programação, inovação e mercado de trabalho.',
             ],
             [
-                'titulo' => 'Mostra de Cursos',
+                'titulo' => 'Feira de Profissões',
                 'data' => '15/09/2026',
-                'descricao' => 'Evento para apresentar os cursos técnicos disponíveis na unidade.',
+                'tipo' => 'Orientação',
+                'descricao' => 'Evento para apresentar cursos técnicos, áreas de atuação e possibilidades profissionais.',
             ],
         ];
 
@@ -70,6 +89,12 @@ class SiteController extends Controller
 
     public function enviarFormulario(Request $request)
     {
+        /*
+        | Validação do formulário.
+        | Antes de salvar no banco, o Laravel verifica se os dados enviados
+        | atendem às regras definidas abaixo.
+        */
+
         $dadosValidados = $request->validate([
             'nome' => 'required|min:3',
             'email' => 'required|email',
@@ -86,13 +111,19 @@ class SiteController extends Controller
             'mensagem.min' => 'A mensagem precisa ter pelo menos 10 caracteres.',
         ]);
 
+        // Salva os dados validados na tabela mensagens.
         Mensagem::create($dadosValidados);
 
-        return back()->with('sucesso', 'Mensagem enviada com sucesso!');
+        return back()->with('sucesso', 'Mensagem enviada com sucesso para a ETEC Zona Leste!');
     }
 
     public function mensagens()
     {
+        /*
+        | Busca as mensagens cadastradas no banco de dados.
+        | latest() ordena os registros do mais recente para o mais antigo.
+        */
+
         $mensagens = Mensagem::latest()->get();
 
         return view('mensagens', ['mensagens' => $mensagens]);
