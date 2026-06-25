@@ -308,7 +308,13 @@
             inset: 0;
             border-top: 4px solid rgba(193, 18, 31, 0.8);
             opacity: 0.85;
+            pointer-events: none;
         }
+        
+        .card > * {
+    position: relative;
+    z-index: 1;
+}
 
         .icon-box {
             width: 56px;
